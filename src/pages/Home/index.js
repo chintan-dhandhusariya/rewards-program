@@ -20,7 +20,6 @@ const Home = () => {
 			...trans,
 			date: new Date(trans.date),
 		}));
-    console.log("transactions", transactions);
     setTransactions(transactions);
   };
 
@@ -39,7 +38,6 @@ const Home = () => {
 				});
       }
     });
-    console.log(customers);
     setCustomers(customers);
   }, [transactions]);
 
@@ -79,6 +77,7 @@ const Home = () => {
 					<div>
 						<label>Customer: </label>
 						<select
+							data-testid="customer-select"
 							defaultValue={customers[0]?.id}
 							onChange={(e) => setSelectedCustomer(e.target.value)}
 						>
@@ -92,6 +91,7 @@ const Home = () => {
 					<div>
 						<label>Time period: </label>
 						<select
+							data-testid="time-period-select"
 							defaultValue={TIME_PERIODS[0].id}
 							onChange={(e) => setSelectedTime(e.target.value)}
 						>
@@ -108,7 +108,7 @@ const Home = () => {
 				<section>
 					{filteredTransactions.length > 0 ? (
 						<>
-							<div className="table">
+							<div className="table" data-testid="table">
 								<div className="header-row">
 									<div className="cell">Customer Name</div>
 									<div className="cell">Purchase Item</div>
@@ -126,10 +126,15 @@ const Home = () => {
 									</div>
 								))}
 							</div>
-							<div style={{ marginTop: 40 }}>Total Reward points: {getTotalRewards(filteredTransactions)}</div>
+							<div style={{ marginTop: 40 }}>
+								Total Reward points:{" "}
+								<span data-testid="rewards-value">
+									{getTotalRewards(filteredTransactions)}
+								</span>
+							</div>
 						</>
 					) : (
-						<center>Loading...</center>
+						<center data-testid="loader">Loading...</center>
 					)}
 				</section>
 			</div>
